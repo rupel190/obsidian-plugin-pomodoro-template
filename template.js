@@ -8,6 +8,7 @@ try {
 const parentFolder = pathParts.length >= 2 ? pathParts[pathParts.length - 1] : "General";
 
   const outputPath = `Work/Pomodoros/${parentFolder}.md`;
+  const outputPath = `${str.substring(0, str.lastIndexOf("/"))}${parentFolder}-Pomodoros.md`;
 
   // DataView
   const formatTime = (date) => date ? date.toISOString() : "Unknown"; // format time to ISO
