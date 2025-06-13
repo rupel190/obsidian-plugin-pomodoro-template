@@ -4,27 +4,32 @@ try {
 
   // Output file
   const pathParts = log.task.path.split("/");
-  const fileName = pathParts.pop().replace(".md", "");
-const parentFolder = pathParts.length >= 2 ? pathParts[pathParts.length - 1] : "General";
+  console.log(pathParts);
+  //const parentFolder = pathParts.length >= 2 ? pathParts[pathParts.length - 1] : "General";
+  //const outputPath = `Work/Pomodoros/${parentFolder}.md`;
 
-  const outputPath = `Work/Pomodoros/${parentFolder}.md`;
-  const outputPath = `${str.substring(0, str.lastIndexOf("/"))}${parentFolder}-Pomodoros.md`;
+  // Remove original filename for good
+  const ogFilename = pathParts.pop();
+  // Save to same folderx with "🍅-folderx" as filename
+  const outputFilename = `🍅-${pathParts[pathParts.length-1]}.md`
+  const outputPath = pathParts.join("/") + `/${outputFilename}`;
+  // console.log("OutputPath: ", outputPath);
 
   // DataView
   const formatTime = (date) => date ? date.toISOString() : "Unknown"; // format time to ISO
   const dwMode = `(pomodoro::${log.mode})`;
   const dwBegin = `(begin::${formatTime(log.begin)})`;
-  const dwEnd = `(end::${formatTime(log.end)})`;
+  // const dwEnd = `(end::${formatTime(log.end)})`; // Currently unused because begin + duration is more consistent when manually fixing pomo logs
   const dwDuration = `(duration::${log.duration})`;
   const dwFullPath = `(path::${log.task.path})`;
   const dwTaskName = `(taskname::${log.task.name})`;
   const dwBlocklink = `(blocklink::${(log.task.blockLink).trim()})`;
-  const dwFileName = `(fileName::${fileName})`;
+  // const dwFilename = `(filename::${ogFilename})`;
 
   // Construct log entry while retaining DataView variables
   const link = `[[${log.task.path}#${log.task.blockLink.trim()}|${log.task.name}]]`;
   let icon = log.mode === "WORK" ? (log.finished ? "🍅" : "🟡") : "☕️";
-  let logEntry = `- ${icon} ${dwMode} for ${dwDuration} min (${dwBegin} - ${dwEnd}) | \n${dwFullPath}${dwBlocklink}\n${dwFileName} ${dwTaskName}\n${link}\n`;
+  let logEntry = `${icon} ${dwMode} ${dwDuration} min   | ${dwBegin.trim()}\n${link}\n\n(${dwFullPath}${dwBlocklink}\n${dwTaskName})\n\n---\n`;
 
   // Read or create file
   let content = "";
