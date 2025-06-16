@@ -11,7 +11,7 @@ try {
   // Remove original filename for good
   const ogFilename = pathParts.pop();
   // Save to same folderx with "🍅-folderx" as filename
-  const outputFilename = `🍅-${pathParts[pathParts.length-1]}.md`
+  const outputFilename = `🍅-${pathParts[pathParts.length - 1]}.md`
   const outputPath = pathParts.join("/") + `/${outputFilename}`;
   // console.log("OutputPath: ", outputPath);
 
@@ -23,13 +23,14 @@ try {
   const dwDuration = `(duration::${log.duration})`;
   const dwFullPath = `(path::${log.task.path})`;
   const dwTaskName = `(taskname::${log.task.name})`;
+  const dwComment = `(comment::${log.comment})`;
   const dwBlocklink = `(blocklink::${(log.task.blockLink).trim()})`;
   // const dwFilename = `(filename::${ogFilename})`;
 
   // Construct log entry while retaining DataView variables
   const link = `[[${log.task.path}#${log.task.blockLink.trim()}|${log.task.name}]]`;
   let icon = log.mode === "WORK" ? (log.finished ? "🍅" : "🟡") : "☕️";
-  let logEntry = `${icon} ${dwMode} ${dwDuration} min   | ${dwBegin.trim()}\n${link}\n\n(${dwFullPath}${dwBlocklink}\n${dwTaskName})\n\n---\n`;
+  let logEntry = `${icon} ${dwMode} ${dwDuration} min   | ${dwBegin.trim()}\n${dwComment}\n${link}\n\n(${dwFullPath}${dwBlocklink}\n${dwTaskName})\n\n---\n`;
 
   // Read or create file
   let content = "";
